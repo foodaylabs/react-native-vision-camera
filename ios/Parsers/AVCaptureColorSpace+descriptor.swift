@@ -11,6 +11,12 @@ import AVFoundation
 extension AVCaptureColorSpace {
   init(string: String) throws {
     switch string {
+    case "appleLog":
+      if #available(iOS 17, *) {
+        self = .appleLog
+      } else {
+        throw EnumParserError.unsupportedOS(supportedOnOS: "17")
+      }
     case "hlg-bt2020":
       if #available(iOS 14.1, *) {
         self = .HLG_BT2020
@@ -37,6 +43,8 @@ extension AVCaptureColorSpace {
       return "p3-d65"
     case .sRGB:
       return "srgb"
+    case .appleLog:
+      return "appleLog"
     default:
       fatalError("AVCaptureDevice.Position has unknown state.")
     }
